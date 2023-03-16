@@ -41,10 +41,15 @@ class ListMovieScreen extends GetView<ListViewViewModels> {
             : NotificationListener<ScrollNotification>(
                 onNotification: (scrollPos) {
                   if (scrollPos is ScrollEndNotification) {
-                    controller.numberPage++;
-                    controller.getData();
+                    final before = scrollPos.metrics.extentBefore;
+                    final max = scrollPos.metrics.maxScrollExtent;
+
+                    if (before == max) {
+                      controller.numberPage++;
+                      controller.getData();
+                    }
                   }
-                  return true;
+                  return false;
                 },
                 child: SingleChildScrollView(
                   child: Padding(
